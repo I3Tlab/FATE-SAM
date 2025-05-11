@@ -2,20 +2,21 @@
 
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
-  * [Installation](#Installation)
+<!--  * [Installation](#Installation)
   * [Offline Training](#offline-training)
-  * [Online Adaptation](#online-adaptation)
+  * [Online Adaptation](#online-adaptation) -->
 - [Publication](#publication)
 - [Contacts](#contacts)
 <!-- - [Star History](#star-history)-->
 
 ## Introduction
-Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for 3D medical image segmentation that adapts the pretrained SAM2 model without fine-tuning. By leveraging a memory-based mechanism and volumetric consistency, FATE-SAM enables prompt-free, training-free segmentation across diverse medical datasets. This approach achieves robust performance while eliminating the need for large annotated datasets. For implementation details and results, please refer to our [[paper]](https://arxiv.org/abs/2501.09138).
+Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for 3D medical image segmentation that adapts the pretrained SAM2 model without fine-tuning. By leveraging a support exampled-based memory mechanism and volumetric consistency, FATE-SAM enables prompt-free, training-free segmentation across diverse medical datasets. This approach achieves robust performance while eliminating the need for large annotated datasets. For more details and results, please refer to our [[paper]](https://arxiv.org/abs/2501.09138).
 
 ![figure1.svg](resources%2Ffigure1.svg)
 
 
-## Code is coming soon...
+## Getting Started
+Code is coming soon...
 
 ### Publication
 ```bibtex
