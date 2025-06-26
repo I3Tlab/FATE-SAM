@@ -22,12 +22,12 @@ Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for
 2. Clone this repo and cd to the project path.
 ```bash
 git clone git@github.com:I3Tlab/FATE-SAM.git
-cd GPS_RF
+cd FATE-SAM
 ```
 3. Create and activate the Conda environment:
 ```bash
 conda create --name FATE_SAM python=3.10.12
-conda activate GPSRF
+conda activate FATE_SAM
 ```
 4. Install dependencies
 ```bash
