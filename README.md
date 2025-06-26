@@ -60,9 +60,9 @@ streamlit run notebooks/app.py
 #TODO
 
 ### TODO
--[] Provide support examples
--[] Instructions to generate users' support images.
--[] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
+- [] Provide support examples
+- [] Instructions to generate users' support images.
+- [] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
 
 ### Publication
 ```bibtex
