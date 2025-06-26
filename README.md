@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ```
 
 ### Support Image Generation
-1. Support image examples can but found from example/support_examples
+1. Support image examples can but found from example/support_examples. #TODO
 2. To generate your own support images:
    #TODO
 
@@ -54,6 +54,15 @@ python notebooks/fate_sam_predict.py \
 ```batsh
 streamlit run notebooks/app.py
 ```
+
+
+### Output the segmentation results for further usage
+#TODO
+
+###TODO
+-[] Provide support examples
+-[] Instructions to generate users' support images.
+-[] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
 
 ### Publication
 ```bibtex
