@@ -16,7 +16,44 @@ Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for
 
 
 ## Getting Started
-Code is coming soon...
+### Installation
+0. Download and Install the appropriate version of NVIDIA driver and CUDA for your GPU.
+1. Download and install [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
+2. Clone this repo and cd to the project path.
+```bash
+git clone git@github.com:I3Tlab/FATE-SAM.git
+cd GPS_RF
+```
+3. Create and activate the Conda environment:
+```bash
+conda create --name FATE_SAM python=3.10.12
+conda activate GPSRF
+```
+4. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Support Image Generation
+1. Support image examples can but found from example/support_examples
+2. To generate your own support images:
+   #TODO
+
+
+### Inference with command line
+```bash
+python notebooks/fate_sam_predict.py \
+  --query_image_path example/processed_data/imagesTr_jpg/101_58_93 \
+  --query_label_path example/processed_data/labelsTr/101_58_93.nii.gz \
+  --support_images_path example/processed_data/imagesTr_jpg/ \
+  --support_labels_path example/processed_data/labelsTr/ \
+  --num_classes 8
+```
+
+### Inference with Streamlit app
+```batsh
+streamlit run notebooks/app.py
+```
 
 ### Publication
 ```bibtex
