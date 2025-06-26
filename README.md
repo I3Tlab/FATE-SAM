@@ -45,8 +45,8 @@ pip install -r requirements.txt
 python notebooks/fate_sam_predict.py \
   --query_image_path example/processed_data/imagesTr_jpg/101_58_93 \
   --query_label_path example/processed_data/labelsTr/101_58_93.nii.gz \
-  --support_images_path example/processed_data/imagesTr_jpg/ \
-  --support_labels_path example/processed_data/labelsTr/ \
+  --support_images_path example/support_images/imagesTr_jpg/ \
+  --support_labels_path example/support_images/labelsTr/ \
   --num_classes 8
 ```
 
@@ -60,7 +60,7 @@ streamlit run notebooks/app.py
 #TODO
 
 ### TODO
-- [ ] Provide support examples
+- [ ] Provide inference and support examples
 - [ ] Instructions to generate users' support images.
 - [ ] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
 
