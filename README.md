@@ -60,7 +60,8 @@ streamlit run notebooks/app.py
 #TODO
 
 ### TODO
-- [ ] Provide inference and support examples
+- [ ] Upload inference scripts.
+- [ ] Provide inference and support examples.
 - [ ] Instructions to generate users' support images.
 - [ ] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
 
