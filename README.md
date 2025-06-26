@@ -59,7 +59,7 @@ streamlit run notebooks/app.py
 ### Output the segmentation results for further usage
 #TODO
 
-###TODO
+### TODO
 -[] Provide support examples
 -[] Instructions to generate users' support images.
 -[] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
