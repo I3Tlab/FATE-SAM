@@ -32,7 +32,7 @@ pip install -r requirements.txt
 ```
 
 ### Support Image Generation
-1. Image-label examples can but found in `notebooks/data`
+1. Support examples can but found in `notebooks/data`
 2. To generate your own support images: we recommend saving them following the **MSD**  and **SAM2** convention
     <details>
     <summary>Sample dataset directory structure (click to view details)</summary>
