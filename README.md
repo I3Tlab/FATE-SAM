@@ -35,35 +35,56 @@ pip install -r requirements.txt
 ```
 
 ### Support Image Generation
-1. Support image examples can but found from example/support_examples. #TODO
-2. To generate your own support images:
-   #TODO
+1. Image-label examples can but found in `notebooks/data`
+2. To generate your own support images: we recommend saving them following the **MSD**  and **SAM2** convention
+    <details>
+    <summary>Sample dataset directory structure (click to view details)</summary>
+    
+    ```commandline
+    <dataset-roo>/
+    ├── imagesQuery/0001.nii.gz
+    ├── imagesQuery_jpg/           # 2D slices of query image
+    │   └── 0001/
+    │       ├── slice_000.jpg
+    │       ├── slice_001.jpg
+    │       └── ...
+    ├── imagesSupport/             # 3D support images (.nii.gz)
+    │   ├── 0002.nii.gz
+    │   ├── 0003.nii.gz
+    │   └── ...
+    ├── imagesSupport_jpg/         # 2D slices of support images
+    │   ├── 0002/
+    │   │   ├── slice_000.jpg
+    │   │   └── ...
+    │   ├── 0003/
+    │   │   ├── slice_000.jpg
+    │   │   └── ...
+    ├── labelsSupport/             # 3D support labels (.nii.gz)
+    │   ├── 0002.nii.gz
+    │   └── 0003.nii.gz
+    ```
+    </details>
 
 
 ### Inference with command line
+Data format: follow the sample dataset directory structure described above 
 ```bash
 python notebooks/fate_sam_predict.py \
-  --query_image_path example/processed_data/imagesTr_jpg/101_58_93 \
-  --query_label_path example/processed_data/labelsTr/101_58_93.nii.gz \
-  --support_images_path example/support_images/imagesTr_jpg/ \
-  --support_labels_path example/support_images/labelsTr/ \
-  --num_classes 8
+  --query_image_path <path-to-query-image-jpg-folder> \
+  --query_label_path <path-to-query-label.nii.gz> \
+  --support_images_path <path-to-support-images-jpg-dir> \
+  --support_labels_path <path-to-support-labels-dir> \
+  --num_classes <number-of-classes>
 ```
 
 ### Inference with Streamlit app
+Data format: all .nii.gz (query label is optional)
 ```batsh
 streamlit run notebooks/app.py
 ```
 
-
 ### Output the segmentation results for further usage
-#TODO
-
-### TODO
-- [ ] Upload inference scripts.
-- [ ] Provide inference and support examples.
-- [ ] Instructions to generate users' support images.
-- [ ] Instructions to output the segmentation results as common medical image formats (e.g., .nii)
+Overlayed segmentation slices are output to the `predictions/` folder
 
 ### Publication
 ```bibtex
