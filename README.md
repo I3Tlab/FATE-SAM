@@ -30,13 +30,12 @@ pip install -r requirements.txt
 ```
 
 ### Inference with command line
-To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data`
+To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from [SKI10](https://huggingface.co/datasets/YongchengYAO/SKI10), [BTCV](https://www.synapse.org/Synapse:syn3193805/wiki/), [ACDC](https://www.creatis.insa-lyon.fr/Challenge/acdc/databases.html), and [MSD](http://medicaldecathlon.com/) datasets.
 
-Data format: follow the sample dataset directory structure described above 
 ```bash
 python notebooks/fate_sam_predict.py \
-  --query_image_path <path-to-query-image-jpg-folder> \
-  --query_label_path <path-to-query-label.nii.gz> \
+  --query_image_path <path-to-test-image-jpg-folder> \
+  --query_label_path <path-to-test-label.nii.gz> \ #optional
   --support_images_path <path-to-support-images-jpg-dir> \
   --support_labels_path <path-to-support-labels-dir> \
   --num_classes <number-of-classes>
@@ -50,7 +49,8 @@ streamlit run notebooks/app.py
 
 ### Support Image Generation
 
-2. To generate your own support images: we recommend saving them following the **MSD**  and **SAM2** convention
+To use your own support images and labels, please save the support images as either 
+we recommend saving them as following formats and folder structures. 
     <details>
     <summary>Sample dataset directory structure (click to view details)</summary>
     
