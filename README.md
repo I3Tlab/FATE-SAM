@@ -4,13 +4,11 @@
 - [Getting Started](#getting-started)
 - [Publication](#publication)
 - [Contacts](#contacts)
-<!-- - [Star History](#star-history)-->
 
 ## Introduction
 Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for 3D medical image segmentation that adapts the pretrained SAM2 model without fine-tuning. By leveraging a support example-based memory mechanism and volumetric consistency, FATE-SAM enables prompt-free, training-free segmentation across diverse medical datasets. This approach achieves robust performance while eliminating the need for large annotated datasets. For more details and results, please refer to our [[paper]](https://arxiv.org/abs/2501.09138).
 
 ![figure1.svg](resources%2Ffigure1.jpg)
-
 
 ## Getting Started
 ### Installation
@@ -31,8 +29,27 @@ conda activate FATE_SAM
 pip install -r requirements.txt
 ```
 
+### Inference with command line
+To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data`
+
+Data format: follow the sample dataset directory structure described above 
+```bash
+python notebooks/fate_sam_predict.py \
+  --query_image_path <path-to-query-image-jpg-folder> \
+  --query_label_path <path-to-query-label.nii.gz> \
+  --support_images_path <path-to-support-images-jpg-dir> \
+  --support_labels_path <path-to-support-labels-dir> \
+  --num_classes <number-of-classes>
+```
+
+### Inference with Streamlit app
+Data format: all .nii.gz (query label is optional)
+```batsh
+streamlit run notebooks/app.py
+```
+
 ### Support Image Generation
-1. Support examples can but found in `notebooks/data`
+
 2. To generate your own support images: we recommend saving them following the **MSD**  and **SAM2** convention
     <details>
     <summary>Sample dataset directory structure (click to view details)</summary>
@@ -64,22 +81,6 @@ pip install -r requirements.txt
     </details>
 
 
-### Inference with command line
-Data format: follow the sample dataset directory structure described above 
-```bash
-python notebooks/fate_sam_predict.py \
-  --query_image_path <path-to-query-image-jpg-folder> \
-  --query_label_path <path-to-query-label.nii.gz> \
-  --support_images_path <path-to-support-images-jpg-dir> \
-  --support_labels_path <path-to-support-labels-dir> \
-  --num_classes <number-of-classes>
-```
-
-### Inference with Streamlit app
-Data format: all .nii.gz (query label is optional)
-```batsh
-streamlit run notebooks/app.py
-```
 
 ### Output the segmentation results for further usage
 Overlayed segmentation slices are output to the `predictions/` folder
