@@ -11,6 +11,11 @@ Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for
 ![figure1.svg](resources%2Ffigure1.jpg)
 
 ## Getting Started
+The hardware environment we tested.
+- OS: Ubuntu 20.04.6 LTS
+- CPU: Intel Core i9-10980XE CPU @ 3.00GHz * 36
+- GPU: NVIDIA RTX A5000
+
 ### Installation
 0. Download and Install the appropriate version of NVIDIA driver and CUDA for your GPU.
 1. Download and install [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
@@ -30,60 +35,61 @@ pip install -r requirements.txt
 ```
 
 ### Inference with command line
-To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from [SKI10](https://huggingface.co/datasets/YongchengYAO/SKI10), [BTCV](https://www.synapse.org/Synapse:syn3193805/wiki/), [ACDC](https://www.creatis.insa-lyon.fr/Challenge/acdc/databases.html), and [MSD](http://medicaldecathlon.com/) datasets.
+To perform inference with command line, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from [SKI10](https://huggingface.co/datasets/YongchengYAO/SKI10), [BTCV](https://www.synapse.org/Synapse:syn3193805/wiki/), [ACDC](https://www.creatis.insa-lyon.fr/Challenge/acdc/databases.html), and [MSD](http://medicaldecathlon.com/) datasets.
 
 ```bash
 python notebooks/fate_sam_predict.py \
-  --query_image_path <path-to-test-image-jpg-folder> \
-  --query_label_path <path-to-test-label.nii.gz> \ #optional
+  --test_image_path <path-to-test-image-jpg-folder> \
   --support_images_path <path-to-support-images-jpg-dir> \
   --support_labels_path <path-to-support-labels-dir> \
-  --num_classes <number-of-classes>
 ```
 
 ### Inference with Streamlit app
-Data format: all .nii.gz (query label is optional)
+To perform inference with GUI, please run
 ```batsh
 streamlit run notebooks/app.py
 ```
+<!--[ ] insert video for GUI inference here-->
 
 ### Support Image Generation
 
-To use your own support images and labels, please save the support images as either 
-we recommend saving them as following formats and folder structures. 
-    <details>
+To use your own support images and labels, please save the support images as .nii format. We recommoned using [3D slicer](https://www.slicer.org/) to generat the support label and saving them as following formats and folder structures
+ 
+ <details>
     <summary>Sample dataset directory structure (click to view details)</summary>
     
     ```commandline
     <dataset>/
-    ├── imagesQuery/0001.nii.gz
-    ├── imagesQuery_jpg/           # 2D slices of query image
-    │   └── 0001/
-    │       ├── slice_000.jpg
-    │       ├── slice_001.jpg
-    │       └── ...
-    ├── imagesSupport/             # 3D support images (.nii.gz)
+    ├── Testimages/0001.nii.gz
+    ├── Supportimages/             # 3D support images (.nii.gz)
     │   ├── 0002.nii.gz
     │   ├── 0003.nii.gz
     │   └── ...
-    ├── imagesSupport_jpg/         # 2D slices of support images
-    │   ├── 0002/
-    │   │   ├── slice_000.jpg
-    │   │   └── ...
-    │   ├── 0003/
-    │   │   ├── slice_000.jpg
-    │   │   └── ...
-    ├── labelsSupport/             # 3D support labels (.nii.gz)
+    ├── Supportlabels/             # 3D support labels (.nii.gz)
     │   ├── 0002.nii.gz
     │   └── 0003.nii.gz
     └── 
     ```
     </details>
+    
+<!--[ ] insert video for support generation here-->
 
-
+   
 
 ### Output the segmentation results for further usage
-Overlayed segmentation slices are output to the `predictions/` folder
+For commond line inference, segmentation results are output to the `predictions/` folder as .nii format which can be used for further usage.
+For GUI inference, segmentation results can be output to specified path as .nii format.
+
+
+### TODO
+[ ] GUI video demo refinement
+    [ ] normal speed
+    [ ] intermediate result showing
+    [ ] optimize layout and button
+    [ ] consistency check
+[ ] Support generation video demo
+    [ ] Use
+[ ] Output options of GUI
 
 ### Publication
 ```bibtex
