@@ -55,22 +55,22 @@ streamlit run notebooks/app.py
 
 To use your own support images and labels, please save the support images as .nii format. We recommoned using [3D slicer](https://www.slicer.org/) to generat the support label and saving them as following formats and folder structures
  
- <details>
-    <summary>Sample dataset directory structure (click to view details)</summary>
+<details>
+  <summary>Sample dataset directory structure (click to view details)</summary>
     
-    ```commandline
-    <dataset>/
-    ├── Testimages/0001.nii.gz
-    ├── Supportimages/             # 3D support images (.nii.gz)
-    │   ├── 0002.nii.gz
-    │   ├── 0003.nii.gz
-    │   └── ...
-    ├── Supportlabels/             # 3D support labels (.nii.gz)
-    │   ├── 0002.nii.gz
-    │   └── 0003.nii.gz
-    └── 
-    ```
-    </details>
+```commandline
+<dataset>/
+├── Testimages/0001.nii.gz
+├── Supportimages/             # 3D support images (.nii.gz)
+│   ├── 0002.nii.gz
+│   ├── 0003.nii.gz
+│   └── ...
+├── Supportlabels/             # 3D support labels (.nii.gz)
+│   ├── 0002.nii.gz
+│   └── 0003.nii.gz
+└── 
+```
+</details>
     
 <!--[ ] insert video for support generation here-->
 
@@ -81,15 +81,14 @@ For commond line inference, segmentation results are output to the `predictions/
 For GUI inference, segmentation results can be output to specified path as .nii format.
 
 
-### TODO
+<!--### TODO
 [ ] GUI video demo refinement
     [ ] normal speed
     [ ] intermediate result showing
     [ ] optimize layout and button
     [ ] consistency check
 [ ] Support generation video demo
-    [ ] Use
-[ ] Output options of GUI
+[ ] Output options of GUI-->
 
 ### Publication
 ```bibtex
