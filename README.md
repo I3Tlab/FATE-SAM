@@ -41,7 +41,7 @@ pip install -r requirements.txt
     <summary>Sample dataset directory structure (click to view details)</summary>
     
     ```commandline
-    <dataset-roo>/
+    <dataset>/
     ├── imagesQuery/0001.nii.gz
     ├── imagesQuery_jpg/           # 2D slices of query image
     │   └── 0001/
@@ -62,6 +62,7 @@ pip install -r requirements.txt
     ├── labelsSupport/             # 3D support labels (.nii.gz)
     │   ├── 0002.nii.gz
     │   └── 0003.nii.gz
+    └── 
     ```
     </details>
 
