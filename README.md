@@ -21,7 +21,7 @@ The hardware environment we tested.
 1. Download and install <a href="https://www.anaconda.com/download" target="_blank">Anaconda</a>
 
 
-[Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
+[Anaconda](https://www.anaconda.com/download){:target="_blank"} or [Miniconda](https://docs.anaconda.com/miniconda/).
 2. Clone this repo and cd to the project path.
 ```bash
 git clone git@github.com:I3Tlab/FATE-SAM.git
