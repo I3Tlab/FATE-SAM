@@ -42,8 +42,7 @@ To perform inference with command line, support images and labels are needed. We
 | Support Dataset | Anatomy | Segmentation Objects | Modality |
 |-----|-----|-----| ----- |
 | [SKI10](https://huggingface.co/datasets/YongchengYAO/SKI10) | Knee | (1) femur (2) femoral cartilage (3) tibia (4) tibial cartilage | MRI |
-| [BTCV](https://www.synapse.org/Synapse:syn3193805/wiki/) |Abdominal | (1) spleen (2) right kidney (3) left kidney (4) gallbladder (5) esophagus (6) liver
-(7) stomach (8) aorta (9) inferior vena cava (10) portal vein and splenic vein (11) pancreas (12) right adrenal gland (13) left adrenal gland | CT |
+| [BTCV](https://www.synapse.org/Synapse:syn3193805/wiki/) |Abdominal | (1) spleen (2) right kidney (3) left kidney (4) gallbladder (5) esophagus (6) liver (7) stomach (8) aorta (9) inferior vena cava (10) portal vein and splenic vein (11) pancreas (12) right adrenal gland (13) left adrenal gland | CT |
 | [ACDC](https://www.creatis.insa-lyon.fr/Challenge/acdc/databases.html)| Cardiac | (1) left ventricle (2) right ventricle (3) myocardium | Cine-MRI |
 | [MSD](http://medicaldecathlon.com/)-Hippocampus| Brain | (1) anterior (2) posterior | MRI |
 | [MSD](http://medicaldecathlon.com/)-Prostate| Prostate | (1) peripheral zone (2) transition zone | MRI |
