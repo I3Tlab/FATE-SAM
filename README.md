@@ -20,6 +20,7 @@ The hardware environment we tested.
 0. Download and Install the appropriate version of NVIDIA driver and CUDA for your GPU.
 1. Download and install <a href="https://www.anaconda.com/download" target="_blank">Anaconda</a>
 
+
 [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
 2. Clone this repo and cd to the project path.
 ```bash
