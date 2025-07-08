@@ -18,7 +18,9 @@ The hardware environment we tested.
 
 ### Installation
 0. Download and Install the appropriate version of NVIDIA driver and CUDA for your GPU.
-1. Download and install [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
+1. Download and install <a href="[https://example.com](https://www.anaconda.com/download)" target="_blank">
+
+Anaconda</a>[Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
 2. Clone this repo and cd to the project path.
 ```bash
 git clone git@github.com:I3Tlab/FATE-SAM.git
