@@ -1,6 +1,6 @@
 # Few-Shot Adaptation of Training-Free Foundation Model for 3D Medical Image Segmentation
 
-💡 Tip: Use Ctrl+Click (Windows/Linux) or right-click to open links in a new tab.
+💡 Tip: Use Ctrl+Click (Windows/Linux), Command+Click (macOS) or right-click to open links in a new tab.
 
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
