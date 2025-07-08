@@ -47,7 +47,7 @@ To perform inference with command line, support images and labels are needed. We
 | [MSD](http://medicaldecathlon.com/)-Hippocampus| Brain | (1) anterior (2) posterior | MRI |
 | [MSD](http://medicaldecathlon.com/)-Prostate| Prostate | (1) peripheral zone (2) transition zone | MRI |
 
-Run for inference with command line.
+Run inference with command line.
 ```bash
 python notebooks/fate_sam_predict.py \
   --test_image_path <path-to-test-image-jpg-folder> \
@@ -56,7 +56,7 @@ python notebooks/fate_sam_predict.py \
 ```
 
 ### Inference with Streamlit app
-To perform inference with GUI, please run
+Run inference with GUI.
 ```batsh
 streamlit run notebooks/app.py
 ```
