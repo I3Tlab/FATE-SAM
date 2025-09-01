@@ -36,8 +36,8 @@ conda activate FATE_SAM
 pip install -r requirements.txt
 ```
 
-### Inference with command line
-To perform inference with command line, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from following publicly available datasets.
+### Quick Inference
+To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from following publicly available datasets.
 
 | Dataset | Anatomy | Segmentation Objects | Modality |
 |-----|-----|-----| ----- |
@@ -47,7 +47,32 @@ To perform inference with command line, support images and labels are needed. We
 | [MSD](http://medicaldecathlon.com/)-Hippocampus| Brain | (1) anterior (2) posterior | MRI |
 | [MSD](http://medicaldecathlon.com/)-Prostate| Prostate | (1) peripheral zone (2) transition zone | MRI |
 
-Run inference with command line.
+*Run inference with GUI*
+```bash
+streamlit run notebooks/app.py
+```
+<details>
+  <summary>Sample dataset directory structure (click to view details)</summary>
+  
+```commandline
+<dataset>/
+├── Test/
+│   ├── 0001_img.nii.gz
+│   └── 0001_label.nii.gz
+│── Support/             
+│   ├── 0002_img.nii.gz
+│   ├── 0002_label.nii.gz
+│   ├── 0003_img.nii.gz
+│   │── 0003_label.nii.gz
+│   └── ...
+└── 
+```
+Note: Always use the suffix  `_img` for support/test images and `_label` for their corresponding labels. This naming convention ensures the files are correctly matched during processing.
+</details>
+<!--[ ] insert video for GUI inference here-->
+
+### Batch Inference
+*Run inference with Command Line*
 ```bash
 python notebooks/fate_sam_predict.py \
   --test_image_path <path-to-test-image-jpg-folder> \
@@ -55,36 +80,12 @@ python notebooks/fate_sam_predict.py \
   --support_labels_path <path-to-support-labels-dir> \
 ```
 
-### Inference with Streamlit app
-Run inference with GUI.
-```batsh
-streamlit run notebooks/app.py
-```
-<!--[ ] insert video for GUI inference here-->
-
 ### Support Image Generation
 
 To use your own support images and labels, please save the support images as .nii format. We recommoned using [3D slicer](https://www.slicer.org/) to generat the support label and saving them as following formats and folder structures
- 
-<details>
-  <summary>Sample dataset directory structure (click to view details)</summary>
-    
-```commandline
-<dataset>/
-├── Testimages/0001.nii.gz
-├── Supportimages/             # 3D support images (.nii.gz)
-│   ├── 0002.nii.gz
-│   ├── 0003.nii.gz
-│   └── ...
-├── Supportlabels/             # 3D support labels (.nii.gz)
-│   ├── 0002.nii.gz
-│   └── 0003.nii.gz
-└── 
-```
-</details>
-    
+  
+Please follow [Data Format](./notebooks/data/DATA_FORMAT.md) for more guidance. 
 <!--[ ] insert video for support generation here-->
-
    
 
 ### Output the segmentation results for further usage

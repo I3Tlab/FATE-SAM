@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 import torch
 import pickle
 import warnings
@@ -321,13 +322,13 @@ def overlay_and_save(
 
     return np.stack(all_frames, axis=0)
 
-def save_results(video_segments, output_folder, volume_idx, method, image_folder):
+def save_results(video_segments, output_folder, volume_idx, reference_img):
     """
     Save final segmentation results: overlay images and merged 3D volume in .nii.gz format.
     """
     video_segments = OrderedDict(sorted(video_segments.items()))
-    reference_img = nib.load(image_folder.replace("_jpg", "") + ".nii.gz")
     merged_volume = overlay_and_save(video_segments, output_folder, volume_idx, reference_img)
     volume_path = os.path.join(output_folder, f'merged_volume_{volume_idx}.nii.gz')
     save_3d(merged_volume, volume_path, reference_img)
     print(f"3D volume saved to {volume_path} as a .nii.gz file.")
+    return volume_path
