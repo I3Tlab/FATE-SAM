@@ -1,14 +1,12 @@
 # Few-Shot Adaptation of Training-Free Foundation Model for 3D Medical Image Segmentation
 
-💡 Tip: Use Ctrl+Click (Windows/Linux), Command+Click (macOS) or right-click to open links in a new tab.
-
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Publication](#publication)
 - [Contacts](#contacts)
 
 ## Introduction
-Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for 3D medical image segmentation that adapts the pretrained SAM2 model without fine-tuning. By leveraging a support example-based memory mechanism and volumetric consistency, FATE-SAM enables prompt-free, training-free segmentation across diverse medical datasets. This approach achieves robust performance while eliminating the need for large annotated datasets. For more details and results, please refer to our [[paper]](https://arxiv.org/abs/2501.09138).
+Few-shot Adaptation of Training-frEe SAM (FATE-SAM) is a versatile framework for 3D medical image segmentation that adapts the pretrained SAM2 model without fine-tuning. By leveraging a support example-based memory mechanism and volumetric consistency, FATE-SAM enables prompt-free, training-free segmentation across diverse medical datasets. This approach achieves robust performance while eliminating the need for large annotated datasets. For more details and results, please refer to our <a href="https://arxiv.org/abs/2501.09138" target="_blank">paper</a>.
 
 ![figure1.svg](resources%2Ffigure1.jpg)
 
@@ -19,7 +17,7 @@ The hardware environment we tested.
 - GPU: NVIDIA RTX A5000
 
 ### Installation
-0. Download and Install the appropriate version of NVIDIA driver and CUDA for your GPU.
+0. Download and install the appropriate version of NVIDIA driver and CUDA for your GPU.
 1. Download and install [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/miniconda/).
 2. Clone this repo and cd to the project path.
 ```bash
@@ -35,43 +33,18 @@ conda activate FATE_SAM
 ```bash
 pip install -r requirements.txt
 ```
+5. Download checkpoints
 
-### Quick Inference
-To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from following publicly available datasets.
+    You can either download the `sam2.1_hiera_large.pt` directly using this <a href="https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt" target="_blank">link</a>  and place it into the `checkpoints/` directory, or follow the official <a href="https://github.com/facebookresearch/sam2/tree/main?tab=readme-ov-file#download-checkpoints" target="_blank">SAM2 repository</a> for more options.
 
-| Dataset | Anatomy | Segmentation Objects | Modality |
-|-----|-----|-----| ----- |
-| [SKI10](https://huggingface.co/datasets/YongchengYAO/SKI10) | Knee | (1) femur (2) femoral cartilage (3) tibia (4) tibial cartilage | MRI |
-| [BTCV](https://www.synapse.org/Synapse:syn3193805/wiki/) | Abdomen | (1) spleen (2) right kidney (3) left kidney (4) gallbladder (5) esophagus (6) liver (7) stomach (8) aorta (9) inferior vena cava (10) portal vein and splenic vein (11) pancreas (12) right adrenal gland (13) left adrenal gland | CT |
-| [ACDC](https://www.creatis.insa-lyon.fr/Challenge/acdc/databases.html)| Heart  | (1) left ventricle (2) right ventricle (3) myocardium | Cine-MRI |
-| [MSD](http://medicaldecathlon.com/)-Hippocampus| Brain | (1) anterior (2) posterior | MRI |
-| [MSD](http://medicaldecathlon.com/)-Prostate| Prostate | (1) peripheral zone (2) transition zone | MRI |
+### Quick Inference (Single Volume)
 
-*Run inference with GUI*
+Run inference with GUI
 ```bash
 streamlit run notebooks/app.py
 ```
-<details>
-  <summary>Sample dataset directory structure (click to view details)</summary>
-  
-```commandline
-<dataset>/
-├── Test/
-│   ├── 0001_img.nii.gz
-│   └── 0001_label.nii.gz
-│── Support/             
-│   ├── 0002_img.nii.gz
-│   ├── 0002_label.nii.gz
-│   ├── 0003_img.nii.gz
-│   │── 0003_label.nii.gz
-│   └── ...
-└── 
-```
-Note: Always use the suffix  `_img` for support/test images and `_label` for their corresponding labels. This naming convention ensures the files are correctly matched during processing.
-</details>
-
 <details> 
-  <summary>▶️ Watch Demo Video</summary>
+  <summary>▶️ Watch GUI Demo Video</summary>
   
   <div align="center">
     <a href="https://youtu.be/fN9Zy7Tew0I" target="_blank">
@@ -86,25 +59,80 @@ Note: Always use the suffix  `_img` for support/test images and `_label` for the
 
 
 ### Batch Inference
-*Run inference with Command Line*
+Run inference with Command Line
 ```bash
 python notebooks/fate_sam_predict.py \
-  --test_image_path <path-to-test-image-jpg-folder> \
-  --support_images_path <path-to-support-images-jpg-dir> \
-  --support_labels_path <path-to-support-labels-dir> \
+       --test_image_path <path-to-test-image-nii.gz-folder> \
+       --support_images_path <path-to-support-images-jpg-dir> \
+       --support_labels_path <path-to-support-labels-nii.gz-dir> \
 ```
 
-### Support Image Generation
+### Support Data 
+To perform inference, support images and labels are needed. We provided a few support examples which can be found in `notebooks/data` covering different anatomies adopted from following publicly available datasets.
+<table>
+  <tr>
+    <th style="width:20%">Dataset</th>
+    <th style="width:10%">Anatomy</th>
+    <th>Segmentation Objects</th>
+    <th style="width:10%">Modality</th>
+  </tr>
+  <tr>
+    <td><a href="https://huggingface.co/datasets/YongchengYAO/SKI10">SKI10</a></td>
+    <td>Knee</td>
+    <td>(1) femur (2) femoral cartilage (3) tibia (4) tibial cartilage</td>
+    <td>MRI</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.synapse.org/Synapse:syn3193805/wiki/">BTCV</a></td>
+    <td>Abdomen</td>
+    <td>(1) spleen (2) right kidney (3) left kidney (4) gallbladder (5) esophagus (6) liver (7) stomach (8) aorta (9) inferior vena cava (10) portal vein and splenic vein (11) pancreas (12) right adrenal gland (13) left adrenal gland</td>
+    <td>CT</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.creatis.insa-lyon.fr/Challenge/acdc/databases.html">ACDC</a></td>
+    <td>Heart</td>
+    <td>(1) left ventricle (2) right ventricle (3) myocardium</td>
+    <td>Cine-MRI</td>
+  </tr>
+  <tr>
+    <td><a href="http://medicaldecathlon.com/">MSD-Hippocampus</a></td>
+    <td>Brain</td>
+    <td>(1) anterior (2) posterior</td>
+    <td>MRI</td>
+  </tr>
+  <tr>
+    <td><a href="http://medicaldecathlon.com/">MSD-Prostate</a></td>
+    <td>Prostate</td>
+    <td>(1) peripheral zone (2) transition zone</td>
+    <td>MRI</td>
+  </tr>
+</table>
 
-To use your own support images and labels, please save the support images as .nii format. We recommoned using [3D slicer](https://www.slicer.org/) to generat the support label and saving them as following formats and folder structures
-  
+To use your own support images and labels, please save the support images as .nii format. We recommoned using [3D slicer](https://www.slicer.org/) to generat the support label and saving them as following formats and folder structures.
+
 Please follow [Data Format](./notebooks/data/DATA_FORMAT.md) for more guidance. 
 <!--[ ] insert video for support generation here-->
-   
+<details>
+<summary>Sample dataset directory structure (click to view details)</summary>
+  
+```commandline
+<dataset>/
+├── Test/
+│   └── 0001_img.nii.gz
+│── Support/             
+│   ├── 0002_img.nii.gz
+│   ├── 0002_label.nii.gz
+│   ├── 0003_img.nii.gz
+│   │── 0003_label.nii.gz
+│   └── ...
+└── 
+```
+Note: Always use the suffix  `_img` for support/test images and `_label` for their corresponding labels. This naming convention ensures the files are correctly matched during processing.
+</details>
 
-### Output the segmentation results for further usage
-For commond line inference, segmentation results are output to the `predictions/` folder as .nii format which can be used for further usage.
+### Output
 For GUI inference, segmentation results can be output to specified path as .nii format.
+For commond line inference, segmentation results are output to the `predictions/` folder as .nii format which can be used for further usage.
 
 
 <!--### TODO

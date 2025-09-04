@@ -17,7 +17,7 @@ import fate_sam_predict
 
 # === App Setup ===
 st.title("FATE SAM INFERENCE")
-st.sidebar.header("Upload Data")
+st.sidebar.header("Upload Volumes")
 
 st.session_state.setdefault("prediction_done", False)
 st.session_state.setdefault("volume_idx", None)
@@ -28,7 +28,7 @@ st.session_state.setdefault("save_toggle_prev", False)
 st.session_state.setdefault("num_classes_input", "")
 
 # === Temp Directories ===
-tmp_output_folder = "predictions"
+tmp_output_folder = "inference"
 temp_dir = tempfile.TemporaryDirectory()
 temp_root = temp_dir.name
 temp_test_imgs_dir = os.path.join(temp_root, "test_imgs")
@@ -136,18 +136,22 @@ def plot_slices(data1, data2=None, slice_idx=None, title1="Image", title2="Label
 
 
 # === Upload ===
-test_mix = st.sidebar.file_uploader(
-    "Upload TEST files",
-    type=["nii.gz"],
-    accept_multiple_files=True,
-    key="test_mix",
-)
 support_mix = st.sidebar.file_uploader(
-    "Upload SUPPORT files",
+    """Upload SUPPORT Files  
+    (Both image and label)""",
     type=["nii.gz"],
     accept_multiple_files=True,
     key="support_mix",
 )
+
+
+test_mix = st.sidebar.file_uploader(
+    "Upload TEST Files",
+    type=["nii.gz"],
+    accept_multiple_files=True,
+    key="test_mix",
+)
+
 
 test_pairs, test_unmatched = parse_pairs(test_mix)
 support_pairs, support_unmatched = parse_pairs(support_mix)
@@ -228,19 +232,13 @@ available_tests = [it["key"] for it in saved_test_items if it["image_path"] is n
 selected_test_key = st.sidebar.selectbox("Select TEST volume", options=available_tests) if available_tests else None
 current_test = next((it for it in saved_test_items if it["key"] == selected_test_key), None)
 
-if current_test and current_test["image_path"]:
-    st.header("Uploaded Data")
-    with st.expander("Show Test Image + Label", expanded=False):
-        q_data = load_nifti_data(current_test["image_path"])
-        l_data = load_nifti_data(current_test["label_path"]) if current_test["label_path"] else None
-        slice_idx = st.slider("Choose a slice:", 0, q_data.shape[2] - 1, q_data.shape[2] // 2, 1, key="test_slice")
-        plot_slices(q_data, l_data, slice_idx, "Test Image", "Test Label")
-
 support_img_files = [f for f in os.listdir(temp_support_imgs_dir) if f.endswith(".nii.gz")]
 support_keys = [os.path.splitext(os.path.splitext(f)[0])[0] for f in support_img_files] 
 
+
 if support_img_files:
-    with st.expander("Show Support Images + Labels", expanded=False):
+    st.header("Uploaded Volumes")
+    with st.expander("View Support Images + Labels", expanded=False):
         selected_support_key = st.selectbox("Select a support volume to view", support_keys, key="support_select")
         if selected_support_key:
             img_path = os.path.join(temp_support_imgs_dir, f"{selected_support_key}.nii.gz")
@@ -256,15 +254,22 @@ if support_img_files:
             )
             plot_slices(img_data, label_data, slice_idx, "Support Image", "Support Label")
 
+      
+if current_test and current_test["image_path"]:
+    with st.expander("View Test Image", expanded=False):
+        q_data = load_nifti_data(current_test["image_path"])
+        l_data = load_nifti_data(current_test["label_path"]) if current_test["label_path"] else None
+        slice_idx = st.slider("Choose a slice:", 0, q_data.shape[2] - 1, q_data.shape[2] // 2, 1, key="test_slice")
+        plot_slices(q_data, l_data, slice_idx, "Test Image", "Test Label")
 
-# === Prediction ===
-if st.sidebar.button("Predict"):
+# === Inference ===
+if st.sidebar.button("Inference"):
     if (current_test is None) or (current_test["jpg_folder"] is None):
         st.error("Please upload and select a valid TEST pair (img[, label]).")
     elif not support_img_files:
         st.error("Please upload SUPPORT files (must include at least one *_img.nii.gz).")
     else:
-        st.info("Running prediction...")
+        st.info("Running inference...")
         volume_idx = current_test["key"]
         test_jpg_folder = current_test["jpg_folder"]
         test_label_path = current_test["label_path"]
@@ -282,8 +287,8 @@ if st.sidebar.button("Predict"):
         st.session_state.seg_predictions = seg_predictions
         st.session_state.df = df
         st.session_state.current_image_path = current_test.get("image_path")
-        
-# === Prediction Visualization ===
+
+# === Inference Visualization ===
 if st.session_state.prediction_done and st.session_state.volume_idx is not None:
     st.header("Slice-by-Slice Overlay Viewer")
 
@@ -297,7 +302,7 @@ if st.session_state.prediction_done and st.session_state.volume_idx is not None:
             ref_img_path = st.session_state.get("current_image_path")
 
             if seg_predictions is None:
-                st.error("No predictions available. Please run prediction first.")
+                st.error("No results available. Please run prediction first.")
             elif not ref_img_path:
                 st.error("Reference image path missing; cannot save.")
             else:

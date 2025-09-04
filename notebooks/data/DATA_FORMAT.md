@@ -10,11 +10,11 @@ The formatter script will:
 
 ```bash
 python data_formatter.py \
-  --test_images      /path/to/raw/test_images \
-  --test_labels      /path/to/raw/test_labels \
-  --support_images   /path/to/raw/support_images \
-  --support_labels   /path/to/raw/support_labels \
-  --out_root         /data/dataset_name
+       --test_images      /path/to/raw/test_images \
+       --test_labels      /path/to/raw/test_labels \
+       --support_images   /path/to/raw/support_images \
+       --support_labels   /path/to/raw/support_labels \
+       --out_root         /data/dataset_name
 ```
 
 ## Input Data Formats
