@@ -72,16 +72,16 @@ Note: Always use the suffix  `_img` for support/test images and `_label` for the
 
 <details> 
   <summary>▶️ Watch Demo Video</summary>
-
-  <!-- <a href="https://youtu.be/fN9Zy7Tew0I" target="_blank">
-    <img src="http://img.youtube.com/vi/fN9Zy7Tew0I/0.jpg" alt="Demo Video" width="400" style="border:2px solid #000; border-radius:8px;">
-  </a>
-  <p><em>Click the image to watch on YouTube</em></p> -->
-
-  <a href="https://youtu.be/fN9Zy7Tew0I" target="_blank">
-    <img src="../resources/FATE_SAM_DEMO.gif" alt="Demo Video" width="400" style="border:2px solid #000; border-radius:8px;">
-  </a>
-  <p><em>Click the image to watch on YouTube</em></p>
+  
+  <div align="center">
+    <a href="https://youtu.be/fN9Zy7Tew0I" target="_blank">
+      <img src="./resources/FATE_SAM_DEMO.gif" 
+           alt="Demo Video" 
+           width="750" 
+           style="border:2px solid #000; border-radius:8px;">
+    </a>
+    <p><em>Click to watch on YouTube</em></p>
+  </div>  
 </details>
 
 
