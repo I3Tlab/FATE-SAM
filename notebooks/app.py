@@ -8,6 +8,8 @@ import matplotlib.image as mpimg
 import nibabel as nib
 import numpy as np
 import streamlit as st
+import io
+from PIL import Image
 
 warnings.filterwarnings("ignore")
 
@@ -17,7 +19,7 @@ import fate_sam_predict
 
 # === App Setup ===
 st.title("FATE SAM INFERENCE")
-st.sidebar.header("Upload Volumes")
+st.sidebar.header("Upload Data")
 
 st.session_state.setdefault("prediction_done", False)
 st.session_state.setdefault("volume_idx", None)
@@ -28,7 +30,7 @@ st.session_state.setdefault("save_toggle_prev", False)
 st.session_state.setdefault("num_classes_input", "")
 
 # === Temp Directories ===
-tmp_output_folder = "inference"
+tmp_output_folder = "predictions"
 temp_dir = tempfile.TemporaryDirectory()
 temp_root = temp_dir.name
 temp_test_imgs_dir = os.path.join(temp_root, "test_imgs")
@@ -262,7 +264,8 @@ if current_test and current_test["image_path"]:
         slice_idx = st.slider("Choose a slice:", 0, q_data.shape[2] - 1, q_data.shape[2] // 2, 1, key="test_slice")
         plot_slices(q_data, l_data, slice_idx, "Test Image", "Test Label")
 
-# === Inference ===
+
+# === Infernece ===
 if st.sidebar.button("Inference"):
     if (current_test is None) or (current_test["jpg_folder"] is None):
         st.error("Please upload and select a valid TEST pair (img[, label]).")
@@ -287,14 +290,14 @@ if st.sidebar.button("Inference"):
         st.session_state.seg_predictions = seg_predictions
         st.session_state.df = df
         st.session_state.current_image_path = current_test.get("image_path")
-
-# === Inference Visualization ===
+        
+# === Prediction Visualization ===
 if st.session_state.prediction_done and st.session_state.volume_idx is not None:
-    st.header("Slice-by-Slice Overlay Viewer")
+    st.header("Slice Prediction Viewer")
 
     with st.container(border=True):
         save_now = st.toggle(
-            "💾 Save Prediction",
+            "📥 Save Prediction",
         )
         if save_now and not st.session_state.save_toggle_prev:
             seg_predictions = st.session_state.get("seg_predictions")
@@ -302,7 +305,7 @@ if st.session_state.prediction_done and st.session_state.volume_idx is not None:
             ref_img_path = st.session_state.get("current_image_path")
 
             if seg_predictions is None:
-                st.error("No results available. Please run prediction first.")
+                st.error("No predictions available. Please run prediction first.")
             elif not ref_img_path:
                 st.error("Reference image path missing; cannot save.")
             else:
@@ -333,40 +336,72 @@ if st.session_state.prediction_done and st.session_state.volume_idx is not None:
     image_files = load_img_files(frame_folder)
     num_slices = len(image_files)
 
-    if num_slices == 0:
-        st.error("No overlay images found!")
-    else:
-        slice_idx = st.slider(
-            label="",
-            min_value=0,
-            max_value=num_slices - 1,
-            value=max(0, num_slices // 2 - 1),
-            step=1
-        )
+    overlay_3d_img, _ = overlay_and_show(
+        video_segments=st.session_state.seg_predictions,
+        output_folder=tmp_output_folder,
+        volume_idx=st.session_state.volume_idx,
+        reference_img=nib.load(current_test["image_path"]),
+    )
 
-        current_test_meta = next((it for it in saved_test_items if it["key"] == st.session_state.volume_idx), None)
-        show_test_label = False
-        if current_test_meta and current_test_meta["label_path"] and os.path.exists(current_test_meta["label_path"]):
-            show_test_label = st.toggle("Show Test Label", value=False)
+    tab1, tab2 = st.tabs(["Slice Viewer", "Animation"])
 
-        image_path = image_files[slice_idx]
-        overlay_img = mpimg.imread(image_path)
-
-        if show_test_label:
-            test_label_data = nib.load(current_test_meta["label_path"]).get_fdata()
-            if slice_idx < test_label_data.shape[2]:
-                label_slice = test_label_data[:, :, slice_idx]
-                label_slice_norm = label_slice / (np.max(label_slice) + 1e-5)
-
-                fig, axs = plt.subplots(1, 2, figsize=(12, 6))
-                axs[0].imshow(overlay_img); axs[0].set_title("Overlay Prediction"); axs[0].axis("off")
-                axs[1].imshow(label_slice_norm, cmap="gray"); axs[1].set_title("Test Label"); axs[1].axis("off")
-                st.pyplot(fig)
-            else:
-                st.error("Selected slice is out of range for the test label!")
+    with tab1:
+        if num_slices == 0:
+            st.error("No overlay images found!")
         else:
-            fig, ax = plt.subplots(figsize=(6, 6))
-            ax.imshow(overlay_img)
-            ax.set_title("Overlay Prediction")
-            ax.axis("off")
-            st.pyplot(fig)
+            slice_idx = st.slider(
+                label="Slice",
+                min_value=0,
+                max_value=num_slices - 1,
+                value=max(0, num_slices // 2 - 1),
+                step=1
+            )
+
+            current_test_meta = next((it for it in saved_test_items if it["key"] == st.session_state.volume_idx), None)
+            show_test_label = False
+            if current_test_meta and current_test_meta["label_path"] and os.path.exists(current_test_meta["label_path"]):
+                show_test_label = st.toggle("Show Test Label", value=False)
+
+            image_path = image_files[slice_idx]
+            print(image_path)
+            overlay_img = overlay_3d_img[slice_idx]
+
+            if show_test_label:
+                test_label_data = nib.load(current_test_meta["label_path"]).get_fdata()
+                if slice_idx < test_label_data.shape[2]:
+                    label_slice = test_label_data[:, :, slice_idx]
+                    label_slice_norm = label_slice / (np.max(label_slice) + 1e-5)
+
+                    fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+                    axs[0].imshow(overlay_img); axs[0].set_title("Overlay Prediction"); axs[0].axis("off")
+                    axs[1].imshow(label_slice_norm, cmap="gray"); axs[1].set_title("Test Label"); axs[1].axis("off")
+                    st.pyplot(fig)
+                else:
+                    st.error("Selected slice is out of range for the test label!")
+            else:
+                fig, ax = plt.subplots(figsize=(6, 6))
+                ax.imshow(overlay_img)
+                ax.set_title("Overlay Prediction")
+                ax.axis("off")
+                st.pyplot(fig)
+
+    with tab2:
+        bg = (0, 0, 0)
+        rgb_frames = []
+        for f in overlay_3d_img:
+            im = Image.fromarray(f.astype(np.uint8)).convert("RGBA")
+            canvas = Image.new("RGBA", im.size, bg + (255,))
+            rgb_frames.append(Image.alpha_composite(canvas, im).convert("RGB"))
+
+        buf = io.BytesIO()
+        rgb_frames[0].save(
+            buf,
+            format="GIF",
+            save_all=True,
+            append_images=rgb_frames[1:],
+            duration=100,
+            loop=0,
+            optimize=True,
+        )
+        buf.seek(0)
+        st.image(buf, caption="Animated GIF", width=600)

@@ -246,7 +246,7 @@ def save_3d(merged_volume, volume_path, reference_img):
     new_nifti_img = nib.Nifti1Image(merged_volume, reference_affine, header=reference_header)
     nib.save(new_nifti_img, volume_path)
 
-def overlay_and_save(
+def overlay_and_show(
         video_segments,
         output_folder,
         volume_idx,
@@ -273,9 +273,11 @@ def overlay_and_save(
         15: [140, 100, 150, int(255 * label_alpha)],
     }
 
+    all_masks = []
     all_frames = []
 
-    for out_frame_idx, masks_dict in video_segments.items():
+    for out_frame_idx, masks_dict in sorted(video_segments.items(), key=lambda x :x[0]):
+        print(out_frame_idx)
         frame_folder = os.path.join(output_folder, f'segmentation_{volume_idx}')
         os.makedirs(frame_folder, exist_ok=True)
 
@@ -318,16 +320,17 @@ def overlay_and_save(
 
         save_path = os.path.join(frame_folder, f'{int(out_frame_idx):03d}.png')
         imageio.imwrite(save_path, rgba_composited)
-        all_frames.append(merged_mask)
+        all_masks.append(merged_mask)
+        all_frames.append(rgba_composited)
 
-    return np.stack(all_frames, axis=0)
+    return np.stack(all_frames, axis=0), np.stack(all_masks, axis=0)
 
 def save_results(video_segments, output_folder, volume_idx, reference_img):
     """
     Save final segmentation results: overlay images and merged 3D volume in .nii.gz format.
     """
     video_segments = OrderedDict(sorted(video_segments.items()))
-    merged_volume = overlay_and_save(video_segments, output_folder, volume_idx, reference_img)
+    _, merged_volume = overlay_and_show(video_segments, output_folder, volume_idx, reference_img)
     volume_path = os.path.join(output_folder, f'merged_volume_{volume_idx}.nii.gz')
     save_3d(merged_volume, volume_path, reference_img)
     print(f"3D volume saved to {volume_path} as a .nii.gz file.")
