@@ -47,7 +47,7 @@ streamlit run notebooks/app.py
   <summary>▶️ Watch GUI Demo Video</summary>
   
   <div align="center">
-    <a href="https://youtu.be/fN9Zy7Tew0I" target="_blank">
+    <a href="https://youtu.be/IlhKStQ5WC8" target="_blank">
       <img src="./resources/FATE_SAM_DEMO.gif" 
            alt="Demo Video" 
            width="750" 
